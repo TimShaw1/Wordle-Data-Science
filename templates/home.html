@@ -1,51 +1,6 @@
 {% extends "layout.html" %}
 {% block title %} Wordle {% endblock %}
 
-{% block script %}
-<script>
-    // get input key
-    let i = 0;
-    let j = 0;
-
-    document.onkeydown = function(evt) {
-        let id = i.toString().concat(",",j.toString());
-        evt = evt || window.event;
-        var charCode = evt.keyCode || evt.which;
-
-            if (charCode == 8 || charCode == 46)
-            {
-                if (j == 4)
-                {
-                    if (document.getElementById(id).textContent == "_")
-                    {
-                        j--;
-                    }
-                    document.getElementById(id).textContent = "_";
-                }
-                else
-                if (j > 0)
-                {
-                    j--;
-                }
-                id = i.toString().concat(",",j.toString());
-                document.getElementById(id).textContent = "_";
-
-
-            }
-            else
-            {
-
-                var charStr = String.fromCharCode(charCode);
-                document.getElementById(id).textContent = charStr;
-                if (j < 4)
-                {
-                    j++;
-                }
-            }
-    };
-</script>
-{% endblock %}
-
 {% block main %}
 <h1>Wordle</h1>
 <div class="container, text-center">
@@ -62,4 +17,5 @@
         </div>
     {% endfor %}
   </div>
+  <script type="text/javascript" src='/static/keypress.js'></script>
 {% endblock %}

@@ -17,4 +17,4 @@ Session(app)
 
 @app.route("/")
 def home():
-    return render_template("home.html", letter="A")
+    return render_template("home.html", letter="_")
