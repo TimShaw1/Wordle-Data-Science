@@ -2,9 +2,11 @@
 Created by Tim Shaw for CS50
 
 A simple web app with flask and django that simulates a game of wordle. 
+Currently a working version of wordle with a few bugs to be ironed out!
 
 TODO:
-- Add word list
-- Add letter checking
-- Do more data science research!
-- Implement guess reccomendations
+- Add word list [x]
+- Add letter checking [x]
+- Add letter list [ ]
+- Do more data science research! [ ]
+- Implement guess reccomendations [ ]
