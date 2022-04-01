@@ -1,5 +1,6 @@
 let i = 0;  //columns
 let j = 0;  //rows
+let guess = "";
 
 // referenced from https://stackoverflow.com/questions/1846599/how-to-find-out-what-character-key-is-pressed
 // get input key
@@ -29,17 +30,18 @@ document.onkeydown = function(evt) {
             }
             id = j.toString().concat(",",i.toString());
             document.getElementById(id).textContent = "_";
-
+            guess = guess.slice(0,-1);
 
         }
         else
         // if we press enter, move down a row
         if (charCode == 13)
         {
-            if (j < 5)
+            if (j < 5 && i == 4 && guess.length == 5)
             {
                 i = 0;
                 j++;
+                guess = "";
             }
         }
         else
@@ -47,6 +49,8 @@ document.onkeydown = function(evt) {
             // Display character in correct box
             var charStr = String.fromCharCode(charCode);
             document.getElementById(id).textContent = charStr;
+            guess = guess.concat(charStr);
+
             // ensure we don't go out of range for i
             if (i < 4)
             {

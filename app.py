@@ -5,6 +5,7 @@ from flask_bootstrap import Bootstrap
 from flask_session import Session
 import keyboard
 import csv
+import random
 
 app = Flask(__name__)
 
@@ -37,7 +38,8 @@ with open('valid_guesses.csv', newline='') as f:
 
     guesses = list(flat_list)
 
+solution = random.choice(solutions)
+
 @app.route("/")
 def home():
-    print(guesses)
-    return render_template("home.html", letter="_")
+    return render_template("home.html")
