@@ -82,16 +82,17 @@ document.onkeydown = function (evt) {
     if (charCode == 8 || charCode == 46) {
         // ensure we don't go out of range for i
         if (i == 4) {
-            if (document.getElementById(id).textContent == "_") {
+            // Fixed comparison
+            if (document.getElementById(id).textContent.indexOf('_') != -1) {
                 i--;
             }
             document.getElementById(id).textContent = "_";
         }
         else
-            // ensure we don't go out of range for i
-            if (i > 0) {
-                i--;
-            }
+        // ensure we don't go out of range for i
+        if (i > 0) {
+            i--;
+        }
         id = j.toString().concat(",", i.toString());
         document.getElementById(id).textContent = "_";
         guess = guess.slice(0, -1);
