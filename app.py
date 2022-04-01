@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, flash, redirect, render_template, request, session
+from flask import Flask, flash, jsonify, redirect, render_template, request, session
 from flask_bootstrap import Bootstrap
 from flask_session import Session
 import keyboard
@@ -38,8 +38,46 @@ with open('valid_guesses.csv', newline='') as f:
 
     guesses = list(flat_list)
 
+# Choose random solution and store in array
 solution = random.choice(solutions)
+solution = solution.upper()
+solution_list = solution.split()
 
-@app.route("/")
+# List to store green/yellow/gray letters
+colors = [0,0,0,0,0]
+
+solution = "GREEN"
+
+
+def game(word):
+
+    word = word.upper()
+
+    if word == solution:
+        print("Win")
+
+    print(solution)
+    count = 0
+    for guess_letter in word:
+        if guess_letter in solution:
+            if guess_letter == solution[count]:
+                colors[count] = 'green'
+            else:
+                colors[count] = 'yellow'
+        else:
+            colors[count] = 'gray'
+
+        count += 1
+
+    
+
+@app.route("/", methods=['POST', 'GET'])
 def home():
+
+    # Get guess from page
+    if request.method == "POST":
+        guess = request.get_json()
+        game(guess)
+        print(colors)
+
     return render_template("home.html")
