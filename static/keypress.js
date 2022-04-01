@@ -82,7 +82,7 @@ document.onkeydown = function (evt) {
     if (charCode == 8 || charCode == 46) {
         // ensure we don't go out of range for i
         if (i == 4) {
-            // Fixed comparison
+            // Fixed comparison test
             if (document.getElementById(id).textContent.indexOf('_') != -1) {
                 i--;
             }
