@@ -19,7 +19,23 @@ function checkWin(input) {
     return true;
 }
 
+function setGuessed(guess, colors)
+{
+    var id;
+    const guessArray = guess.split('');
+    for (var i = 0; i < 5; i++)
+    {
+        id = guessArray[i];
+        if (document.getElementById(id).style.background != 'green')
+        {
+            document.getElementById(id).style.background = colors[i];
+        }
+    }
+    return;
+}
+
 // https://pythonise.com/series/learning-flask/flask-and-fetch-api
+// Submit guess to the server
 function submit_message() {
 
     fetch(`${window.origin}/`, {
@@ -48,6 +64,7 @@ function submit_message() {
                         letter_id = j.toString().concat("/", k.toString());
                         console.log(letter_id);
                         document.getElementById(letter_id).style.background = colors[k];
+                        setGuessed(guess, colors);
                     }
                     // Reset column and move down 1 row
                     i = 0;
@@ -82,7 +99,7 @@ document.onkeydown = function (evt) {
     if (charCode == 8 || charCode == 46) {
         // ensure we don't go out of range for i
         if (i == 4) {
-            // Fixed comparison test
+            // Fixed comparison
             if (document.getElementById(id).textContent.indexOf('_') != -1) {
                 i--;
             }
