@@ -2,7 +2,7 @@
 {% block title %} Wordle {% endblock %}
 
 {% block main %}
-<h1>Wordle</h1>
+<h1 id="Title">Wordle</h1>
 <div class="container, text-center">
     {% for i in range(6) %}
         <div class="row d-flex justify-content-center">
@@ -16,6 +16,22 @@
             {% endfor %}
         </div>
     {% endfor %}
+</div>
+<div class="container, text-center, box overlay">
+    {% for i in range(5) %}
+        <div class="row d-flex justify-content-center">
+            {% for j in range(6) %}
+            {% if (j)+(i*6) < 26 %}
+                <div class="col-sm, card" id="{{ 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'[(j)+(i*6)]}}">
+                    <h2>
+                        {{ "ABCDEFGHIJKLMNOPQRSTUVWXYZ"[(j)+(i*6)]}}
+                    </h2>
+                </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+    {% endfor %}
+    
   </div>
   <script type="text/javascript" src='/static/keypress.js'></script>
 {% endblock %}

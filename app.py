@@ -83,7 +83,7 @@ def game(word):
         for j in range(5):
             # if we haven't checked the letter already, and if it is in the word, make it yellow
             if solution_dict[word_list[i]] > 0 and word_list[i] == solution_list[j] and colors[i] == 'gray':
-                colors[i] = 'yellow'
+                colors[i] = 'gold'
                 solution_dict[word_list[i]] -= 1
     # Reset colors to gray
     for i in range(5):
