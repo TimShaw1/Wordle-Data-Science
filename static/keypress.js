@@ -34,6 +34,14 @@ function setGuessed(guess, colors)
     return;
 }
 
+// https://stackoverflow.com/questions/6268508/restart-animation-in-css3-any-better-way-than-removing-the-element
+function reset_animation(el) 
+{
+    el.style.animation = 'none';
+    void(el.offsetHeight); /* trigger reflow */
+    el.style.animation = null; 
+}
+
 // https://pythonise.com/series/learning-flask/flask-and-fetch-api
 // Submit guess to the server
 function submit_message() {
@@ -56,6 +64,9 @@ function submit_message() {
                 // If we have an invalid word
                 if (data["message"] == "invalid") {
                     console.log("Invalid");
+                    el = document.getElementById("r".concat(j.toString()));
+                    reset_animation(el);
+                    el.style.animation = "shake 0.82s cubic-bezier(.36,.07,.19,.97) both";
                 }
                 else
                 // if we lost and need to display the solution
