@@ -45,7 +45,7 @@ def split(word):
 # Function to generate the word to guess
 def generate_solution():
     # Choose random solution and store in array
-    global solution, solution_list, solution_dict
+    global solution, solution_list, solution_dict, temp_solution_dict
     solution = random.choice(solutions)
     solution = solution.upper()
     solution_list = split(solution)
@@ -53,13 +53,13 @@ def generate_solution():
     # Generate a dictionary for each letter of the alphabet
     solution_dict = {'A': 0, 'B': 0, 'C': 0, 'D': 0, 'E': 0, 'F': 0, 'G': 0, 'H': 0, 'I': 0, 'J': 0, 'K': 0, 'L': 0, 'M': 0, 'N': 0, 'O': 0, 'P': 0, 'Q': 0, 'R': 0, 'S': 0, 'T': 0, 'U': 0, 'V': 0, 'W': 0, 'X': 0, 'Y': 0, 'Z': 0}
 
-generate_solution()
+    # Count how many times each letter is in the word
+    for letter in solution:
+        solution_dict[letter] += 1
+    # Store copy of original dictionary
+    temp_solution_dict = solution_dict.copy()
 
-# Count how many times each letter is in the word
-for letter in solution:
-    solution_dict[letter] += 1
-# Store copy of original dictionary
-temp_solution_dict = solution_dict.copy()
+generate_solution()
 
 # List to store green/yellow/gray letters
 colors = ['gray', 'gray', 'gray', 'gray', 'gray']
@@ -71,8 +71,6 @@ win = ['green', 'green', 'green', 'green', 'green']
 def game(word):
     word = word.upper()
     word_list = split(word)
-    print(word_list)
-    print(solution_list)
 
     # Check for green letters
     for i in range(5):
