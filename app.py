@@ -114,7 +114,16 @@ def home():
     # Get guess from page
     if request.method == "POST":
         guess = request.get_json()
+        # If we lose
+        if guess == "loss":
+            res = make_response({"solution": solution}, 200)
+            # Generate a new solution after sending the old answer to the web page
+            generate_solution()
+            return res
+        # Check the word
         game(guess)
+
+        # Check for valid response
         if guess.lower() not in guesses and guess.lower() not in solutions:
             res = make_response({"message": "invalid"}, 200)
         elif colors == win:

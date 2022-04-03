@@ -53,23 +53,37 @@ function submit_message() {
                 return;
             }
             response.json().then(function (data) {
+                // If we have an invalid word
                 if (data["message"] == "invalid") {
                     console.log("Invalid");
                 }
+                else
+                // if we lost and need to display the solution
+                if (data["solution"])
+                {
+                    alert(data["solution"]);
+                }
                 else {
-                    console.log(data);
                     colors = data["message"];
-                    console.log(colors);
                     for (var k = 0; k < 5; k++) {
+                        // Set letter colors based on the response by the server
                         letter_id = j.toString().concat("/", k.toString());
-                        console.log(letter_id);
                         document.getElementById(letter_id).style.background = colors[k];
+
+                        // Set letter tiles to the correct colors
                         setGuessed(guess, colors);
                     }
                     // Reset column and move down 1 row
                     i = 0;
                     j++;
                     guess = "";
+
+                    // Tell the server if we lost
+                    if (j == 6)
+                    {
+                        guess = "loss";
+                        submit_message();
+                    }
 
                     // If we win, stop taking guesses
                     if (checkWin(colors)) {
@@ -123,7 +137,7 @@ document.onkeydown = function (evt) {
             }
         }
         else
-            if (isAlpha(charStr)) {
+            if (isAlpha(charStr) && j != -1) {
                 // Display character in correct box
                 document.getElementById(id).textContent = charStr;
                 if (guess.length < 5) {
