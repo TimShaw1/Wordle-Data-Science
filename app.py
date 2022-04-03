@@ -96,7 +96,6 @@ def game(word):
     solution_dict.update(temp_solution_dict)
 
     if word == solution:
-        print("Win")
         # If we win, change the solution 
         # Word will be different upon refresh
         generate_solution()
