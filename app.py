@@ -7,6 +7,8 @@ import keyboard
 import csv
 import random
 
+import reccomend_words as rw
+
 app = Flask(__name__)
 
 # Ensure templates are auto-reloaded
@@ -45,7 +47,7 @@ def split(word):
 # Function to generate the word to guess
 def generate_solution():
     # Choose random solution and store in array
-    global solution, solution_list, solution_dict, temp_solution_dict
+    global solution, solution_list, solution_dict, temp_solution_dict, valid_guesses, valid_letters, invalid_letters, letter_indices
     solution = random.choice(solutions)
     solution = solution.upper()
     solution_list = split(solution)
@@ -58,6 +60,32 @@ def generate_solution():
         solution_dict[letter] += 1
     # Store copy of original dictionary
     temp_solution_dict = solution_dict.copy()
+
+    # List to store valid guesses
+    valid_guesses = []
+    
+    # List to store valid letters
+    valid_letters = []
+
+    # List to store invalid letters
+    invalid_letters = []
+
+    # Dict to store letter indexes
+    letter_indices = {}
+
+    reset_valid_guesses()
+
+def reset_valid_guesses():
+    # List to store valid guesses
+    valid_guesses.clear()
+    for guess in guesses:
+        valid_guesses.append(guess)
+    for solution in solutions:
+        valid_guesses.append(solution)
+
+    valid_letters.clear()
+    invalid_letters.clear()
+    letter_indices.clear()
 
 generate_solution()
 
@@ -78,6 +106,8 @@ def game(word):
             colors[i] = 'green'
             # Decrement count
             solution_dict[solution_list[i]] -= 1
+            valid_letters.append(word_list[i]) if word_list[i] not in valid_letters else None
+            letter_indices[word_list[i]] = i
 
     # Check for yellow letters
     for i in range(5):
@@ -86,6 +116,21 @@ def game(word):
             if solution_dict[word_list[i]] > 0 and word_list[i] == solution_list[j] and colors[i] == 'gray':
                 colors[i] = 'gold'
                 solution_dict[word_list[i]] -= 1
+                valid_letters.append(word_list[i]) if word_list[i] not in valid_letters else None
+
+                # If we have a letter in the wrong place, store it's index as negative
+                if word_list[i] not in letter_indices:
+                    letter_indices[word_list[i]] = -i
+
+    # Add gray letters to invalid letters
+    for letter in word_list:
+        if letter not in valid_letters:
+            invalid_letters.append(letter) if letter not in invalid_letters else None
+
+    # remove words with invalid letters
+    rw.remove_words(valid_guesses, invalid_letters, valid_letters, letter_indices)
+    print(valid_guesses)
+    
     # Reset colors to gray
     for i in range(5):
         temp_colors[i] = colors[i]
@@ -102,9 +147,7 @@ def game(word):
 
 
 
-
-    
-
+# Server stuff
 @app.route("/", methods=['POST', 'GET'])
 def home():
 

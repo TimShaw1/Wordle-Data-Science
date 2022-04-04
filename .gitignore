@@ -6551,3 +6551,4 @@ __pycache__/app.cpython-310.pyc
 .venv/Lib/site-packages/six-1.16.0.dist-info/top_level.txt
 .venv/Lib/site-packages/six-1.16.0.dist-info/WHEEL
 .venv/Scripts/f2py.exe
+__pycache__/reccomend_words.cpython-310.pyc
