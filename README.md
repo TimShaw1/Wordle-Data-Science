@@ -7,6 +7,6 @@ Currently a working version of wordle with a few bugs to be ironed out!
 TODO:
 - Add word list [x]
 - Add letter checking [x]
-- Add letter list [ ]
-- Do more data science research! [ ]
+- Add letter list [x]
+- Do more data science research! [x]
 - Implement guess reccomendations [ ]
