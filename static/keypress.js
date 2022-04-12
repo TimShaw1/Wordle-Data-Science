@@ -19,19 +19,23 @@ function checkWin(input) {
     return true;
 }
 
-function setGuessed(guess, colors)
-{
+function setGuessed(guess, colors) {
     var id;
     const guessArray = guess.split('');
-    for (var i = 0; i < 5; i++)
-    {
+    for (var i = 0; i < 5; i++) {
         id = guessArray[i];
-        if (document.getElementById(id).style.background != 'green')
-        {
+        if (document.getElementById(id).style.background != 'green') {
             document.getElementById(id).style.background = colors[i];
         }
     }
     return;
+}
+
+// https://stackoverflow.com/questions/6268508/restart-animation-in-css3-any-better-way-than-removing-the-element
+function reset_animation(el) {
+    el.style.animation = 'none';
+    void (el.offsetHeight); /* trigger reflow */
+    el.style.animation = null;
 }
 
 // https://pythonise.com/series/learning-flask/flask-and-fetch-api
@@ -53,30 +57,47 @@ function submit_message() {
                 return;
             }
             response.json().then(function (data) {
+                // If we have an invalid word
                 if (data["message"] == "invalid") {
                     console.log("Invalid");
+                    el = document.getElementById("r".concat(j.toString()));
+                    reset_animation(el);
+                    el.style.animation = "shake 0.82s cubic-bezier(.36,.07,.19,.97) both";
                 }
-                else {
-                    console.log(data);
-                    colors = data["message"];
-                    console.log(colors);
-                    for (var k = 0; k < 5; k++) {
-                        letter_id = j.toString().concat("/", k.toString());
-                        console.log(letter_id);
-                        document.getElementById(letter_id).style.background = colors[k];
-                        setGuessed(guess, colors);
+                else
+                    // if we lost and need to display the solution
+                    if (data["solution"]) {
+                        alert(data["solution"]);
                     }
-                    // Reset column and move down 1 row
-                    i = 0;
-                    j++;
-                    guess = "";
+                    else {
+                        // display data["top_10"] in home.html
+                        console.log(data["top_10"]);
+                        colors = data["message"];
+                        for (var k = 0; k < 5; k++) {
+                            // Set letter colors based on the response by the server
+                            letter_id = j.toString().concat("/", k.toString());
+                            document.getElementById(letter_id).style.background = colors[k];
 
-                    // If we win, stop taking guesses
-                    if (checkWin(colors)) {
-                        j = -1;
-                        return;
+                            // Set letter tiles to the correct colors
+                            setGuessed(guess, colors);
+                        }
+                        // Reset column and move down 1 row
+                        i = 0;
+                        j++;
+                        guess = "";
+
+                        // If we win, stop taking guesses
+                        if (checkWin(colors)) {
+                            j = -1;
+                            return;
+                        }
+
+                        // Tell the server if we lost
+                        if (j == 6) {
+                            guess = "loss";
+                            submit_message();
+                        }
                     }
-                }
             });
         })
         .catch(function (error) {
@@ -106,10 +127,10 @@ document.onkeydown = function (evt) {
             document.getElementById(id).textContent = "_";
         }
         else
-        // ensure we don't go out of range for i
-        if (i > 0) {
-            i--;
-        }
+            // ensure we don't go out of range for i
+            if (i > 0) {
+                i--;
+            }
         id = j.toString().concat(",", i.toString());
         document.getElementById(id).textContent = "_";
         guess = guess.slice(0, -1);
@@ -123,7 +144,7 @@ document.onkeydown = function (evt) {
             }
         }
         else
-            if (isAlpha(charStr)) {
+            if (isAlpha(charStr) && j != -1) {
                 // Display character in correct box
                 document.getElementById(id).textContent = charStr;
                 if (guess.length < 5) {
