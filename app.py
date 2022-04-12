@@ -49,7 +49,7 @@ def generate_solution():
     # Choose random solution and store in array
     global solution, solution_list, solution_dict, temp_solution_dict, valid_guesses, valid_letters, invalid_letters, letter_indices, g
     solution = random.choice(solutions)
-    # solution = "apple"
+    # solution = 'bunny'
     solution = solution.upper()
     solution_list = split(solution)
 
@@ -142,8 +142,15 @@ def game(word):
 
     # remove words with invalid letters
     # TODO: This deletes everything sometimes?
+    # This happens when all 5 starting letters are invalid
+    print(invalid_letters)
+    print(valid_letters)
+    print(letter_indices)
     rw.remove_words(valid_guesses, invalid_letters, valid_letters, letter_indices)
     print(valid_guesses)
+    print(invalid_letters)
+    print(valid_letters)
+    print(letter_indices)
 
     # Get top 10 words to guess
     global top_10
@@ -191,7 +198,8 @@ def home():
         # Send back colors
         else:
             # If our recommendations are poor, return valid guesses
-            if top_10[0][1] < 30:
+            if top_10[0][1] < 50 and len(valid_guesses) < 20: 
+                valid_guesses.reverse()
                 res = make_response({"message": temp_colors, "top_10": valid_guesses}, 200)
             else:
                 res = make_response({"message": temp_colors, "top_10":top_10}, 200)

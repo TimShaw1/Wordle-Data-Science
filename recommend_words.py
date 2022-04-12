@@ -19,31 +19,46 @@ def remove_words(guesses, invalid_letters, valid_letters, letter_indices):
     
     #loop through all words in temp and remove them if they do not contain valid letters
     for word in temp:
-        for letter in valid_letters:
-            if letter not in word.upper():
-                guesses.remove(word)
-                break
+        if (len(valid_letters) > 0):
+            for letter in valid_letters:
+                if letter not in word.upper():
+                    guesses.remove(word)
+                    break
 
     temp.clear()
     for word in guesses:
         temp.append(word)
 
+    green_indices = {}
+    for letter in letter_indices:
+        for i in range(len(letter_indices[letter])):
+            if letter_indices[letter][i] > 0:
+                if letter not in green_indices:
+                    green_indices[letter] = [letter_indices[letter][i]]
+                else:
+                    green_indices[letter].append(letter_indices[letter][i])
+
     # Green letter in wrong place -- This does not completely work, but it solves the problem 
     # A more optimal solution is possible
     for word in temp:
-        temp_word = word
         for i in range(5):
+            if word[i].upper() in green_indices:
+                temp_word = word
             # If green letter in right place, keep word
             # This makes an error since it keeps the word when seeing the first correct letter
-            if word[i].upper() in letter_indices and i in letter_indices[word[i].upper()]:
+            if word[i].upper() in green_indices and i in green_indices[word[i].upper()]:
                 temp_word = ""
+                break
                 
         if temp_word in guesses and temp_word != "":
+            if word == "bunny":
+                print("bunny")
             guesses.remove(temp_word)
     
     temp.clear()
     for word in guesses:
         temp.append(word)
+
 
     # remove words that have a letter in the wrong place
     for word in temp:
@@ -52,6 +67,7 @@ def remove_words(guesses, invalid_letters, valid_letters, letter_indices):
             if word[i].upper() in letter_indices and -(i+1) in letter_indices[word[i].upper()]:
                 guesses.remove(word)
                 break
+    print(guesses)
 
 # Determine frequency of letters in all possible solutions and reccomend words based on this
 def recommend_words(guesses, valid_letters, invalid_letters, g):
