@@ -34,6 +34,24 @@ body
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
+#top_10
+{
+  background-color: white;
+  padding: 10px;
+  width: fit-content;
+  border-radius: 10px;
+}
+
+#top_10_title
+{
+  background-color: white;
+  padding: 10px;
+  border-radius: 10px;
+  position: absolute;
+  top: 100px;
+  left: 930px;
+}
+
 /* https://css-tricks.com/snippets/css/shake-css-keyframe-animation/ */
 @keyframes shake {
     10%, 90% {

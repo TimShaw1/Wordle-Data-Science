@@ -70,8 +70,6 @@ function submit_message() {
                         alert(data["solution"]);
                     }
                     else {
-                        // display data["top_10"] in home.html
-                        console.log(data["top_10"]);
                         colors = data["message"];
                         for (var k = 0; k < 5; k++) {
                             // Set letter colors based on the response by the server
@@ -89,13 +87,32 @@ function submit_message() {
                         // If we win, stop taking guesses
                         if (checkWin(colors)) {
                             j = -1;
+                            document.getElementById("top_10").innerHTML = "";
                             return;
                         }
 
                         // Tell the server if we lost
                         if (j == 6) {
                             guess = "loss";
+                            document.getElementById("top_10").innerHTML = "";
                             submit_message();
+                        }
+
+                        if (data["top_10"]) {
+                            document.getElementById("top_10").innerHTML = "";
+                            for (var q = 0; q < data["top_10"].length; q++) {
+                                if (q > 9)
+                                {
+                                    break;
+                                }
+                                document.getElementById("top_10").innerHTML += data["top_10"][q];
+                                if (q != data["top_10"].length - 1) {
+                                    document.getElementById("top_10").appendChild(document.createElement("br"));
+                                    document.getElementById("top_10").appendChild(document.createElement("br"));
+                                }
+
+                                
+                            }
                         }
                     }
             });
@@ -137,7 +154,7 @@ document.onkeydown = function (evt) {
 
     }
     else
-        // if we press enter, move down a row
+        // if we press enter, submit message
         if (charCode == 13) {
             if (j < 6 && i == 4 && guess.length == 5) {
                 submit_message();
