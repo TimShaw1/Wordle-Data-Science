@@ -70,6 +70,8 @@ function submit_message() {
                         alert(data["solution"]);
                     }
                     else {
+                        // display data["top_10"] in home.html
+                        console.log(data["top_10"]);
                         colors = data["message"];
                         for (var k = 0; k < 5; k++) {
                             // Set letter colors based on the response by the server
