@@ -3,6 +3,7 @@ let j = 0;  //rows
 let guess = "";
 let colors = [];
 let win = ['green', 'green', 'green', 'green', 'green'];
+let waiting = false;
 
 // https://stackoverflow.com/questions/40120915/javascript-function-that-returns-true-if-a-letter
 // checks if a character is a letter
@@ -78,6 +79,8 @@ function submit_message() {
 
                             // Set letter tiles to the correct colors
                             setGuessed(guess, colors);
+
+                            waiting = false;
                         }
                         // Reset column and move down 1 row
                         i = 0;
@@ -157,11 +160,12 @@ document.onkeydown = function (evt) {
         // if we press enter, submit message
         if (charCode == 13) {
             if (j < 6 && i == 4 && guess.length == 5) {
+                waiting = true;
                 submit_message();
             }
         }
         else
-            if (isAlpha(charStr) && j != -1) {
+            if (isAlpha(charStr) && j != -1 && waiting == false) {
                 // Display character in correct box
                 document.getElementById(id).textContent = charStr;
                 if (guess.length < 5) {
