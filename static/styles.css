@@ -52,6 +52,12 @@ body
   left: 930px;
 }
 
+#front-button
+{
+  z-index: 10;
+  position: relative;
+}
+
 /* https://css-tricks.com/snippets/css/shake-css-keyframe-animation/ */
 @keyframes shake {
     10%, 90% {

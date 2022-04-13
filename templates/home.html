@@ -5,32 +5,31 @@
 <h1 id="Title">Wordle</h1>
 <div class="container, text-center">
     {% for i in range(6) %}
-        <div class="row d-flex justify-content-center" id="r{{i}}">
-            {% for j in range(5) %}
-                <div class="col-sm, card" id="{{i}}/{{j}}">
-                    <h1 id="{{i}},{{j}}">
-                        _
-                    </h1>
-                </div>
-                <div style="padding-left: 10px;"></div>
-            {% endfor %}
+    <div class="row d-flex justify-content-center" id="r{{i}}">
+        {% for j in range(5) %}
+        <div class="col-sm, card" id="{{i}}/{{j}}">
+            <h1 id="{{i}},{{j}}">
+                _
+            </h1>
         </div>
+        <div style="padding-left: 10px;"></div>
+        {% endfor %}
+    </div>
     {% endfor %}
 </div>
 <div class="container, text-center, box overlay">
     {% for i in range(5) %}
-        <div class="row d-flex justify-content-center">
-            {% for j in range(6) %}
-            {% if (j)+(i*6) < 26 %}
-                <div class="col-sm, card" id="{{ 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'[(j)+(i*6)]}}">
-                    <h2>
-                        {{ "ABCDEFGHIJKLMNOPQRSTUVWXYZ"[(j)+(i*6)]}}
-                    </h2>
-                </div>
-            {% endif %}
-            {% endfor %}
-        </div>
+    <div class="row d-flex justify-content-center">
+        {% for j in range(6) %}
+        {% if (j)+(i*6) < 26 %} <div class="col-sm, card" id="{{ 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'[(j)+(i*6)]}}">
+            <h2>
+                {{ "ABCDEFGHIJKLMNOPQRSTUVWXYZ"[(j)+(i*6)]}}
+            </h2>
+    </div>
+    {% endif %}
     {% endfor %}
+</div>
+{% endfor %}
 </div>
 <div id="top_10_title">
     <h3>Top 10</h3>
@@ -38,6 +37,13 @@
 
     </h5>
 
-<div>
-  <script type="text/javascript" src='/static/keypress.js'></script>
+</div>
+
+<br>
+
+<div id="front-button">
+        <input type="submit" class="btn btn-primary" value="Play Again" onClick="window.location.reload();">
+</div>
+
+<script type="text/javascript" src='/static/keypress.js'></script>
 {% endblock %}
