@@ -6552,8 +6552,11 @@ __pycache__/app.cpython-310.pyc
 .venv/Lib/site-packages/six-1.16.0.dist-info/WHEEL
 .venv/Scripts/f2py.exe
 __pycache__/reccomend_words.cpython-310.pyc
+<<<<<<< HEAD
 __pycache__/recommend_words.cpython-310.pyc
 .gitignore
+=======
+>>>>>>> 28ce14353138c1379b387cdd162db4017ff6d873
 .venv/Lib/site-packages/autopep8.py
 .venv/Lib/site-packages/pycodestyle.py
 .venv/Lib/site-packages/__pycache__/autopep8.cpython-310.pyc
@@ -6593,3 +6596,8 @@ __pycache__/recommend_words.cpython-310.pyc
 .venv/Lib/site-packages/toml-0.10.2.dist-info/WHEEL
 .venv/Scripts/autopep8.exe
 .venv/Scripts/pycodestyle.exe
+<<<<<<< HEAD
+=======
+.gitignore
+__pycache__/recommend_words.cpython-310.pyc
+>>>>>>> 28ce14353138c1379b387cdd162db4017ff6d873
