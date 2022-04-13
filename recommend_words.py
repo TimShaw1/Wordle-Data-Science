@@ -29,18 +29,8 @@ def remove_words(guesses, invalid_letters, valid_letters, letter_indices):
     for word in guesses:
         temp.append(word)
 
-    # Store letters with positive indices -- these are green positions
-    green_indices = {}
-    for letter in letter_indices:
-        for i in range(len(letter_indices[letter])):
-            if letter_indices[letter][i] > 0:
-                if letter not in green_indices:
-                    green_indices[letter] = [letter_indices[letter][i]]
-                else:
-                    green_indices[letter].append(letter_indices[letter][i])
-
+    # Used to track if we should skip to next word in loop
     skip = False
-
     # Green letter in wrong place 
     for word in temp:
         skip = False
@@ -49,7 +39,6 @@ def remove_words(guesses, invalid_letters, valid_letters, letter_indices):
                 if not skip and index >= 0:
                     if letter in word.upper():
                         if word[index].upper() != letter:
-                            print(word[index].upper(), letter)
                             guesses.remove(word)
                             skip = True
                             break

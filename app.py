@@ -117,7 +117,7 @@ def game(word):
 
             if word_list[i] not in letter_indices:
                 letter_indices[word_list[i]] = [i]
-            else:
+            elif i not in letter_indices[word_list[i]]:
                 letter_indices[word_list[i]].append(i)
 
     # Check for yellow letters
@@ -132,7 +132,7 @@ def game(word):
                 # If we have a letter in the wrong place, store it's index as negative
                 if word_list[i] not in letter_indices:
                     letter_indices[word_list[i]] = [-(i+1)]
-                else:
+                elif i not in letter_indices[word_list[i]]:
                     letter_indices[word_list[i]].append(-(i+1))
 
     # Add gray letters to invalid letters
