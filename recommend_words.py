@@ -2,7 +2,6 @@
 def remove_words(guesses, invalid_letters, valid_letters, letter_indices):
     # Create a temporary list to store valid guesses
     temp = []
-    temp_word = ""
     for word in guesses:
         temp.append(word)
 
