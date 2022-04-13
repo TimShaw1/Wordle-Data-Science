@@ -169,6 +169,9 @@ def game(word):
 @app.route("/", methods=['POST', 'GET'])
 def home():
 
+    if request.method == 'GET':
+        generate_solution()
+
     # Get guess from page
     if request.method == "POST":
         guess = request.get_json()
