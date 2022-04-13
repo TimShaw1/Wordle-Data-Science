@@ -1,3 +1,5 @@
+# An app by Tim Shaw
+
 import os
 
 from flask import Flask, flash, jsonify, make_response, redirect, render_template, request, session
