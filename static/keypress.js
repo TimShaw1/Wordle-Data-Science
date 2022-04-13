@@ -91,6 +91,7 @@ function submit_message() {
                         if (checkWin(colors)) {
                             j = -1;
                             document.getElementById("top_10").innerHTML = "";
+                            document.getElementById("again").value = "Press Enter";
                             return;
                         }
 
@@ -98,6 +99,7 @@ function submit_message() {
                         if (j == 6) {
                             guess = "loss";
                             document.getElementById("top_10").innerHTML = "";
+                            document.getElementById("again").value = "Press Enter";
                             submit_message();
                         }
 
@@ -159,6 +161,10 @@ document.onkeydown = function (evt) {
     else
         // if we press enter, submit message
         if (charCode == 13) {
+            if (j == -1 || j == 6)
+            {
+                window.location.reload();
+            }
             if (j < 6 && i == 4 && guess.length == 5) {
                 waiting = true;
                 submit_message();
