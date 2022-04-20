@@ -64,6 +64,7 @@ function submit_message() {
                     el = document.getElementById("r".concat(j.toString()));
                     reset_animation(el);
                     el.style.animation = "shake 0.82s cubic-bezier(.36,.07,.19,.97) both";
+                    waiting = false;
                 }
                 else
                     // if we lost and need to display the solution
