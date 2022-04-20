@@ -142,14 +142,16 @@ def game(word):
         if letter not in valid_letters:
             invalid_letters.append(letter) if letter not in invalid_letters else None
 
-    # Don't recommend a word we have already guessed
-    valid_guesses.remove(word) if word in valid_guesses else None
 
     # remove words with invalid letters
     rw.remove_words(valid_guesses, invalid_letters, valid_letters, letter_indices)
     # Get top 10 words to guess
     global top_10
     top_10 = rw.recommend_words(valid_guesses, valid_letters, invalid_letters, g)
+
+    # Don't recommend a word we have already guessed
+    valid_guesses.remove(word) if word in valid_guesses else None
+
     
     # Reset colors to gray
     for i in range(5):
@@ -164,7 +166,6 @@ def game(word):
         # If we win, change the solution 
         # Word will be different upon refresh
         generate_solution()
-
 
 
 # Server stuff
