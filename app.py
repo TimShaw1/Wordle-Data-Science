@@ -104,6 +104,7 @@ temp_colors = ['gray', 'gray', 'gray', 'gray', 'gray']
 
 win = ['green', 'green', 'green', 'green', 'green']
 
+start_guess = rw.recommend_words(valid_guesses, valid_letters, invalid_letters, g)
 
 def game(word):
     word = word.upper()
@@ -166,7 +167,6 @@ def game(word):
         # If we win, change the solution 
         # Word will be different upon refresh
         generate_solution()
-
 
 # Server stuff
 @app.route("/", methods=['POST', 'GET'])
