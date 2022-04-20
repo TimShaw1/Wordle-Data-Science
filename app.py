@@ -51,7 +51,7 @@ def generate_solution():
     # Choose random solution and store in array
     global solution, solution_list, solution_dict, temp_solution_dict, valid_guesses, valid_letters, invalid_letters, letter_indices, g
     solution = random.choice(solutions)
-    # solution = 'royal'
+    # solution = 'shear'
     solution = solution.upper()
     solution_list = split(solution)
 
@@ -196,7 +196,7 @@ def home():
         # Send back colors
         else:
             # If our recommendations are poor, return valid guesses
-            if top_10[0][1] < 55 and len(valid_guesses) < 20: 
+            if top_10[0][1] < 55 and len(valid_guesses) < 8: 
                 valid_guesses.reverse()
                 res = make_response({"message": temp_colors, "top_10": valid_guesses}, 200)
             else:
