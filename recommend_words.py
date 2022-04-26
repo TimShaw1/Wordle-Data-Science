@@ -1,5 +1,5 @@
 # Accepts the valid guesses list, a list of all vaid letters, a list of all invalid letters, and all known indices of the letters
-def remove_words(guesses, invalid_letters, valid_letters, letter_indices):
+def remove_words(guesses, invalid_letters, valid_letters, letter_indices, word_frequencies):
     # Create a temporary list to store valid guesses
     temp = []
     for word in guesses:
@@ -56,13 +56,29 @@ def remove_words(guesses, invalid_letters, valid_letters, letter_indices):
                 guesses.remove(word)
                 break
 
+    freq_sort = []
+    for item in guesses:
+        if item in word_frequencies:
+            freq_sort.append([item, word_frequencies[item]])
+    freq_sort.sort(key=lambda x: x[1], reverse=True)
+
+    guesses.clear()
+
+    for list in freq_sort:
+        guesses.append(list[0])
+
+
+
+
 # Determine frequency of letters in all possible solutions and reccomend words based on this
-def recommend_words(guesses, valid_letters, invalid_letters, g):
+def recommend_words(guesses, valid_letters, invalid_letters, g, word_frequencies):
     letter_counts = {'A': 0, 'B': 0, 'C': 0, 'D': 0, 'E': 0, 'F': 0, 'G': 0, 'H': 0, 'I': 0, 'J': 0, 'K': 0, 'L': 0, 'M': 0, 'N': 0, 'O': 0, 'P': 0, 'Q': 0, 'R': 0, 'S': 0, 'T': 0, 'U': 0, 'V': 0, 'W': 0, 'X': 0, 'Y': 0, 'Z': 0}
     # Count how many times each letter occurs in all possible words
     for guess in guesses:
         for i in range(5):
             letter_counts[guess[i].upper()] += 1
+            if guess in word_frequencies:
+                letter_counts[guess[i].upper()] *= float(word_frequencies[guess])
     
     # sort list of letters by count
     sorted_letters = sorted(letter_counts, key=letter_counts.get, reverse=False)
@@ -86,6 +102,8 @@ def recommend_words(guesses, valid_letters, invalid_letters, g):
         for i in range(len(sorted_letters)):
             if sorted_letters[i] in word.upper():
                 score += i
+        if word in word_frequencies:
+            score += float(word_frequencies[word]) * 2
         # if this score is higher than the lowest score in top_10, add it to top_10
         if len(top_10) < 10:
             top_10.append((word, score))
@@ -98,9 +116,3 @@ def recommend_words(guesses, valid_letters, invalid_letters, g):
     
     return top_10
             
-
-            
-
-
-
-    
