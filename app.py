@@ -42,6 +42,13 @@ with open('valid_guesses.csv', newline='') as f:
 
     guesses = list(flat_list)
 
+# https://stackoverflow.com/questions/6740918/creating-a-dictionary-from-a-csv-file
+with open('wordle_frequencies.csv', mode='r') as infile:
+    reader = csv.reader(infile)
+    with open('wordle_frequencies2.csv', mode='w') as outfile:
+        writer = csv.writer(outfile)
+        word_frequencies = {rows[0]:rows[1] for rows in reader}
+
 # Function to split word into list of letters
 def split(word):
     return [char for char in word]
@@ -96,6 +103,7 @@ def reset_valid_guesses():
     letter_indices.clear()
 
 
+
 generate_solution()
 
 # List to store green/yellow/gray letters
@@ -104,7 +112,8 @@ temp_colors = ['gray', 'gray', 'gray', 'gray', 'gray']
 
 win = ['green', 'green', 'green', 'green', 'green']
 
-start_guess = rw.recommend_words(valid_guesses, valid_letters, invalid_letters, g)
+start_guess = rw.recommend_words(valid_guesses, valid_letters, invalid_letters, g, word_frequencies)
+print(start_guess)
 
 def game(word):
     word = word.upper()
@@ -145,13 +154,14 @@ def game(word):
 
 
     # remove words with invalid letters
-    rw.remove_words(valid_guesses, invalid_letters, valid_letters, letter_indices)
+    rw.remove_words(valid_guesses, invalid_letters, valid_letters, letter_indices, word_frequencies)
     # Get top 10 words to guess
     global top_10
-    top_10 = rw.recommend_words(valid_guesses, valid_letters, invalid_letters, g)
+    top_10 = rw.recommend_words(valid_guesses, valid_letters, invalid_letters, g, word_frequencies)
 
     # Don't recommend a word we have already guessed
-    valid_guesses.remove(word) if word in valid_guesses else None
+    if word.lower() in valid_guesses:
+        valid_guesses.remove(word.lower()) 
 
     
     # Reset colors to gray
@@ -167,6 +177,31 @@ def game(word):
         # If we win, change the solution 
         # Word will be different upon refresh
         generate_solution()
+
+'''
+def test():
+    word1 = start_guess[0][0]
+    count = 1
+    while word1 != solution.lower():
+        game(word1)
+        if len(valid_guesses) == 0:
+            return 0
+        if len(valid_guesses) < 10:
+            word1 = valid_guesses[0]
+        else:
+            word1 = top_10[0][0]
+        count += 1
+    return count
+
+totals = 0
+count1 = 0
+for i in range(1000):
+    totals += test()
+    count1 += 1
+    generate_solution()
+
+print(totals/count1)
+'''
 
 # Server stuff
 @app.route("/", methods=['POST', 'GET'])
@@ -197,8 +232,7 @@ def home():
         # Send back colors
         else:
             # If our recommendations are poor, return valid guesses
-            if top_10[0][1] < 55 and len(valid_guesses) < 8: 
-                valid_guesses.reverse()
+            if len(valid_guesses) < 10:                    
                 res = make_response({"message": temp_colors, "top_10": valid_guesses}, 200)
             else:
                 res = make_response({"message": temp_colors, "top_10":top_10}, 200)
