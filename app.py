@@ -58,7 +58,6 @@ def generate_solution():
     # Choose random solution and store in array
     global solution, solution_list, solution_dict, temp_solution_dict, valid_guesses, valid_letters, invalid_letters, letter_indices, g
     solution = random.choice(solutions)
-    # solution = 'shear'
     solution = solution.upper()
     solution_list = split(solution)
 
@@ -177,30 +176,31 @@ def game(word):
         # Word will be different upon refresh
         generate_solution()
 
-
 def test():
-    word1 = start_guess[0][0]
+    word1 = start_guess[0]
     count = 1
     while word1 != solution.lower():
         game(word1)
-        if len(valid_guesses) == 0:
-            return 0
+        if len(valid_guesses) == 0 or count > 6:
+            print("FAIL")
+            count += 1
+            return 7
         if len(valid_guesses) < 10:
             word1 = valid_guesses[0]
         else:
-            word1 = top_10[0][0]
+            word1 = top_10[0]
         count += 1
     return count
-'''
+
 totals = 0
 count1 = 0
-for i in range(1000):
+for i in range(10000):
     totals += test()
     count1 += 1
     generate_solution()
 
 print(totals/count1)
-'''
+
 
 # Server stuff
 @app.route("/", methods=['POST', 'GET'])

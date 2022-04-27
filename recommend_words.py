@@ -56,10 +56,12 @@ def remove_words(guesses, invalid_letters, valid_letters, letter_indices, word_f
                 guesses.remove(word)
                 break
 
+    # Sort guesses by english word frequency
     freq_sort = []
     for item in guesses:
         if item in word_frequencies:
-            freq_sort.append([item, word_frequencies[item]])
+            if not float(word_frequencies[item]) < 1.000013:
+                freq_sort.append([item, word_frequencies[item]])
     freq_sort.sort(key=lambda x: x[1], reverse=True)
 
     guesses.clear()
