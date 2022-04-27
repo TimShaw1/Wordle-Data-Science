@@ -48,8 +48,9 @@ body
   padding: 10px;
   border-radius: 10px;
   position: absolute;
+  width: fit-content;
   top: 100px;
-  left: 930px;
+  left: 65%;
 }
 
 #front-button

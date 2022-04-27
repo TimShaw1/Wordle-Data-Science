@@ -178,7 +178,7 @@ def game(word):
         # Word will be different upon refresh
         generate_solution()
 
-'''
+
 def test():
     word1 = start_guess[0][0]
     count = 1
@@ -192,7 +192,7 @@ def test():
             word1 = top_10[0][0]
         count += 1
     return count
-
+'''
 totals = 0
 count1 = 0
 for i in range(1000):
