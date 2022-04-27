@@ -191,16 +191,16 @@ def test():
             word1 = top_10[0]
         count += 1
     return count
-
+'''
 totals = 0
 count1 = 0
-for i in range(10000):
+for i in range(100):
     totals += test()
     count1 += 1
     generate_solution()
 
 print(totals/count1)
-
+'''
 
 # Server stuff
 @app.route("/", methods=['POST', 'GET'])
