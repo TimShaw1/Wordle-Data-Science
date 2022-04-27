@@ -113,7 +113,6 @@ temp_colors = ['gray', 'gray', 'gray', 'gray', 'gray']
 win = ['green', 'green', 'green', 'green', 'green']
 
 start_guess = rw.recommend_words(valid_guesses, valid_letters, invalid_letters, g, word_frequencies)
-print(start_guess)
 
 def game(word):
     word = word.upper()

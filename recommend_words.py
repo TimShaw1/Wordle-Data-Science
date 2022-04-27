@@ -118,7 +118,6 @@ def recommend_words(guesses, valid_letters, invalid_letters, g, word_frequencies
     final_top_10 = []
     for i in range(len(top_10)):
         final_top_10.append(top_10[i][0])
-    print(final_top_10)
     
     return final_top_10
             
