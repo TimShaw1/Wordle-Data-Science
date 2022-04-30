@@ -1,4 +1,6 @@
-# Wordle-Data-Science
+# Tim Shaw's Wordle Solver
+#### Video Demo: https://youtu.be/DUz53uftLZ0
+#### Description:
 Created by Tim Shaw for CS50
 
 A simple web app with flask and django that simulates a game of wordle. 
