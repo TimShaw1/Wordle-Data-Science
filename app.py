@@ -206,19 +206,9 @@ def run_bot():
     bot_words.append(solution.lower())
     bot_colors.append(win)
     return count
-'''
-totals = 0
-count1 = 0
-for i in range(100):
-    totals += run_bot()
-    count1 += 1
-    generate_solution()
 
-print(totals/count1)
-'''
 if challenge:
     run_bot()
-    print(solution)
 
 # Server stuff
 @app.route("/", methods=['POST', 'GET'])
