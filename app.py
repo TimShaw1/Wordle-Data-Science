@@ -217,7 +217,8 @@ for i in range(100):
 print(totals/count1)
 '''
 if challenge:
-    print(run_bot(), solution)
+    run_bot()
+    print(solution)
 
 # Server stuff
 @app.route("/", methods=['POST', 'GET'])
@@ -225,8 +226,7 @@ def home():
 
     if request.method == 'GET':
         generate_solution()
-        if challenge:
-            print(run_bot(), solution)
+        run_bot()
 
     # Get guess from page
     if request.method == "POST":
