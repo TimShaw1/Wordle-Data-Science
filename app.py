@@ -1,5 +1,6 @@
 # An app by Tim Shaw
 
+from cProfile import run
 import os
 
 from flask import Flask, flash, jsonify, make_response, redirect, render_template, request, session
@@ -52,6 +53,8 @@ with open('wordle_frequencies.csv', mode='r') as infile:
 # Function to split word into list of letters
 def split(word):
     return [char for char in word]
+
+challenge = True
 
 # Function to generate the word to guess
 def generate_solution():
@@ -113,7 +116,9 @@ win = ['green', 'green', 'green', 'green', 'green']
 
 start_guess = rw.recommend_words(valid_guesses, valid_letters, invalid_letters, g, word_frequencies)
 
-def game(word):
+bot_colors = []
+
+def game(word, bot):
     word = word.upper()
     word_list = split(word)
 
@@ -171,16 +176,24 @@ def game(word):
     solution_dict.clear()
     solution_dict.update(temp_solution_dict)
 
-    if word == solution:
-        # If we win, change the solution 
-        # Word will be different upon refresh
-        generate_solution()
+    temp_col_list = []
+    if challenge and bot:
+        for col in temp_colors:
+            temp_col_list.append(col)
+        bot_colors.append(temp_col_list)
+    
+    return temp_colors
 
-def test():
+bot_words = []
+
+def run_bot():
+    bot_words.clear()
+    bot_colors.clear()
     word1 = start_guess[0]
     count = 1
     while word1 != solution.lower():
-        game(word1)
+        bot_words.append(word1)
+        game(word1, True)
         if len(valid_guesses) == 0 or count > 6:
             print("FAIL")
             count += 1
@@ -190,17 +203,21 @@ def test():
         else:
             word1 = top_10[0]
         count += 1
+    bot_words.append(solution.lower())
+    bot_colors.append(win)
     return count
 '''
 totals = 0
 count1 = 0
 for i in range(100):
-    totals += test()
+    totals += run_bot()
     count1 += 1
     generate_solution()
 
 print(totals/count1)
 '''
+if challenge:
+    print(run_bot(), solution)
 
 # Server stuff
 @app.route("/", methods=['POST', 'GET'])
@@ -208,32 +225,50 @@ def home():
 
     if request.method == 'GET':
         generate_solution()
+        if challenge:
+            print(run_bot(), solution)
 
     # Get guess from page
     if request.method == "POST":
         guess = request.get_json()
         # If we lose
         if guess == "loss":
-            res = make_response({"solution": solution}, 200)
+            if challenge:
+                res = make_response({"bot_words": bot_words, "bot_all_colors": bot_colors, "solution": solution}, 200)
+            else:
+                res = make_response({"solution": solution}, 200)
             # Generate a new solution after sending the old answer to the web page
             generate_solution()
+            if challenge:
+                run_bot()
             return res
         # Check the word
-        game(guess)
+        game_colors = game(guess, False)
+        send_colors = []
+        for i in range(len(game_colors)):
+            send_colors.append(game_colors[i])
 
         # Check for valid response
         if guess.lower() not in guesses and guess.lower() not in solutions:
             res = make_response({"message": "invalid"}, 200)
         # Check for win
-        elif colors == win:
-            res = make_response({"message": "win"}, 200)
+        elif game_colors == win:
+            res = make_response({"message": send_colors, "bot_words": bot_words, "bot_all_colors": bot_colors}, 200)
             generate_solution()
+            run_bot()
         # Send back colors
         else:
             # If our recommendations are poor, return valid guesses
-            if len(valid_guesses) < 10:                    
-                res = make_response({"message": temp_colors, "top_10": valid_guesses}, 200)
+            if len(valid_guesses) < 10 and not challenge:            
+                res = make_response({"message": send_colors, "top_10": valid_guesses}, 200)
             else:
-                res = make_response({"message": temp_colors, "top_10":top_10}, 200)
+                if not challenge:   
+                    res = make_response({"message": send_colors, "top_10":top_10}, 200)
+                else:
+                    res = make_response({"message": send_colors, "bot_colors":bot_colors}, 200)
+                
         return res
-    return render_template("home.html")
+    if challenge:
+        return render_template("challenge.html")
+    else:
+        return render_template("home.html")

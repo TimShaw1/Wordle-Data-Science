@@ -17,6 +17,7 @@
     </div>
     {% endfor %}
 </div>
+
 <div class="container, text-center, box overlay">
     {% for i in range(5) %}
     <div class="row d-flex justify-content-center">
@@ -31,23 +32,20 @@
 </div>
 {% endfor %}
 </div>
-<div class="container, text-center">
-<div id="top_10_title" class="justify-content-center">
-    <h3>Top 10</h3>
-    <h5 id="top_10">
-        aeros <br> <br>
-        soare <br> <br>
-        arose <br> <br>
-        aesir <br> <br>
-        aloes <br> <br>
-        reais <br> <br>
-        serai <br> <br>
-        arise <br> <br>
-        raise <br> <br>
-        arles
-    </h5>
-
-</div>
+<div class="container, text-center, box overlay" id="bot_list">
+    <h1 id="Bot_Title">Bot</h1>
+    {% for i in range(6) %}
+    <div class="row d-flex" id="rr{{i}}">
+        {% for j in range(5) %}
+        <div class="col-sm, card" id="{{i}}//{{j}}">
+            <h1 id="{{i}},,{{j}}">
+                &ensp;
+            </h1>
+        </div>
+        <div style="padding-left: 10px;"></div>
+        {% endfor %}
+    </div>
+    {% endfor %}
 </div>
 
 <br>
@@ -56,5 +54,5 @@
         <input type="submit" id="again" class="btn btn-primary" value="Play Again" onClick="window.location.reload();">
 </div>
 
-<script type="text/javascript" src='/static/home.js'></script>
+<script type="text/javascript" src='/static/challenge.js'></script>
 {% endblock %}

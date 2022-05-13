@@ -34,6 +34,12 @@ body
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
+#Bot_Title
+{
+    color:white;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
 #top_10
 {
   background-color: white;
@@ -57,6 +63,14 @@ body
 {
   z-index: 10;
   position: relative;
+}
+
+#bot_list
+{
+  position: absolute;
+  width: fit-content;
+  top: 20px;
+  left: 60%;
 }
 
 /* https://css-tricks.com/snippets/css/shake-css-keyframe-animation/ */
