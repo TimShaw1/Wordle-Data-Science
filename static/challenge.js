@@ -8,6 +8,32 @@ let colors = [];
 let win = ['green', 'green', 'green', 'green', 'green'];
 let waiting = false;
 
+let trash_talk = false;
+
+document.cookie = "promo_shown=1; Max-Age=2600000; SameSite=None; Secure";
+
+guess_links = [
+    'https://docs.google.com/uc?export=download&id=1JGMbg_i34g5djFsN3Dp40C7BOqX-8FtA',
+    'https://docs.google.com/uc?export=download&id=1JMx8ACTcnFv2VYfu2_83I2Cxru3bObBk',
+    'https://docs.google.com/uc?export=download&id=1JRFY_CloQGIGfznveTsnTwaPyPepJHSb',
+    'https://docs.google.com/uc?export=download&id=1JWajS7lwPM2OCXXbMNZnD3tJ3L9sFw5-',
+    'https://docs.google.com/uc?export=download&id=1Jf-9dg-KkM0LaK76RTqHFb4DREpZoyxF',
+    'https://docs.google.com/uc?export=download&id=1JrHFoXm6MN8cv1DKscJcGrNF-GOjSEv5',
+    'https://docs.google.com/uc?export=download&id=17X_q1qYydn2qdDCwsNJbkjck8zadMKds',
+    'https://docs.google.com/uc?export=download&id=17WweN8tbtmapgu2WjCvBkYyyGuu8gYJJ',
+    'https://docs.google.com/uc?export=download&id=17_Cns5CS21vEzkwOf3OtwUbWRzmO9BtQ'
+]
+
+lose_links = [
+    'https://docs.google.com/uc?export=download&id=1JYquCzA-nbVm-H2VHkb8dK5tcCz7MJQ3',
+    'https://docs.google.com/uc?export=download&id=1Ja4S7eT_0Mw4_NAOxAMNfjYWst0RydjI',
+    'https://docs.google.com/uc?export=download&id=1JzKczM9x80vHYpoNFGewod_RUJtLzrdH',
+    'https://docs.google.com/uc?export=download&id=1K8Xq5clmvFM5YtooJ1fg476DgbwhK3V9',
+    'https://docs.google.com/uc?export=download&id=17SBY4zOBf5DVIQ8Eml9rkq18tFLtG2Lt',
+    'https://docs.google.com/uc?export=download&id=17QR0pViFhq0uF8SJNBimb0qkIriGw1OZ',
+    'https://docs.google.com/uc?export=download&id=17KJGfpfFbVnjQN650sqQJGeekI1grOZy'
+]
+
 // https://stackoverflow.com/questions/40120915/javascript-function-that-returns-true-if-a-letter
 // checks if a character is a letter
 var isAlpha = function (ch) {
@@ -72,11 +98,11 @@ function submit_message() {
                 else
                     // if we lost and need to display the solution
                     if (data["solution"]) {
+                        // Show bot words
                         if (data["bot_words"])
                         {
                             bot_words = data["bot_words"];
                             bot_colors = data["bot_all_colors"];
-                            console.log(bot_words);
                             for (var q = 0; q < 6; q++) {
                                 for (var k = 0; k < 5; k++) {
                                     // Set letters
@@ -95,11 +121,14 @@ function submit_message() {
                                 }
                             }
                         }
+                        if (trash_talk)
+                        {
+                            new Audio(lose_links[Math.floor(Math.random() * lose_links.length)]).play();
+                        }
                         alert(data["solution"]);
                     }
                     else {
                         colors = data["message"];
-                        console.log(colors);
                         for (var k = 0; k < 5; k++) {
                             // Set letter colors based on the response by the server
                             letter_id = j.toString().concat("/", k.toString());
@@ -113,7 +142,6 @@ function submit_message() {
 
                         if (data["bot_colors"]) {
                             bot_colors = data["bot_colors"];
-                            console.log(bot_colors);
                             for (var k = 0; k < 5; k++) {
                                 // Set letter colors based on the response by the server
                                 letter_id = j_bot.toString().concat("//", k.toString());
@@ -125,6 +153,9 @@ function submit_message() {
                                 setGuessed(guess, colors);
 
                                 waiting = false;
+                            }
+                            if (j < 5 && trash_talk) {
+                                new Audio(guess_links[Math.floor(Math.random() * guess_links.length)]).play();
                             }
                         }
 
@@ -138,7 +169,6 @@ function submit_message() {
                         if (data["bot_words"]) {
                             bot_words = data["bot_words"];
                             bot_colors = data["bot_all_colors"];
-                            console.log(bot_words);
                             for (var q = 0; q < 6; q++) {
                                 for (var k = 0; k < 5; k++) {
                                     // Set letters
@@ -160,6 +190,10 @@ function submit_message() {
 
                         // If we win, stop taking guesses
                         if (checkWin(colors)) {
+                            if (j >= bot_colors.length && trash_talk)
+                            {
+                                new Audio(lose_links[Math.floor(Math.random() * lose_links.length)]).play();
+                            }
                             j = -1;
                             document.getElementById("again").value = "Press Enter";
                             return;
