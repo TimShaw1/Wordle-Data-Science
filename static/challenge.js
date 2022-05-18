@@ -63,7 +63,20 @@ function setGuessed(guess, colors) {
     for (var i = 0; i < 5; i++) {
         id = guessArray[i];
         if (document.getElementById(id).style.background != 'green') {
-            document.getElementById(id).style.background = colors[i];
+            if (colors[i] == 'green') {
+                document.getElementById(id).style.background = colors[i];
+            }
+            else
+            if (document.getElementById(id).style.background != 'gold') {
+                if (colors[i] == 'gold')
+                {
+                    document.getElementById(id).style.background = colors[i];
+                }
+                else
+                {
+                document.getElementById(id).style.background = colors[i];
+                }
+            }
         }
     }
     return;
