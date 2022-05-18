@@ -8,30 +8,38 @@ let colors = [];
 let win = ['green', 'green', 'green', 'green', 'green'];
 let waiting = false;
 
-let trash_talk = false;
+let trash_talk = true;
 
 document.cookie = "promo_shown=1; Max-Age=2600000; SameSite=None; Secure";
 
-guess_links = [
-    'https://docs.google.com/uc?export=download&id=1JGMbg_i34g5djFsN3Dp40C7BOqX-8FtA',
-    'https://docs.google.com/uc?export=download&id=1JMx8ACTcnFv2VYfu2_83I2Cxru3bObBk',
-    'https://docs.google.com/uc?export=download&id=1JRFY_CloQGIGfznveTsnTwaPyPepJHSb',
-    'https://docs.google.com/uc?export=download&id=1JWajS7lwPM2OCXXbMNZnD3tJ3L9sFw5-',
-    'https://docs.google.com/uc?export=download&id=1Jf-9dg-KkM0LaK76RTqHFb4DREpZoyxF',
-    'https://docs.google.com/uc?export=download&id=1JrHFoXm6MN8cv1DKscJcGrNF-GOjSEv5',
-    'https://docs.google.com/uc?export=download&id=17X_q1qYydn2qdDCwsNJbkjck8zadMKds',
-    'https://docs.google.com/uc?export=download&id=17WweN8tbtmapgu2WjCvBkYyyGuu8gYJJ',
-    'https://docs.google.com/uc?export=download&id=17_Cns5CS21vEzkwOf3OtwUbWRzmO9BtQ'
+// Preload leaving sound
+let leave_sound = new Audio('https://docs.google.com/uc?export=download&id=1BPYPf8qlrOMA1CyFttQ_P023hwDNB0aq');
+
+var guess_links = [
+    new Audio('https://docs.google.com/uc?export=download&id=1JGMbg_i34g5djFsN3Dp40C7BOqX-8FtA'),
+    new Audio('https://docs.google.com/uc?export=download&id=1JMx8ACTcnFv2VYfu2_83I2Cxru3bObBk'),
+    new Audio('https://docs.google.com/uc?export=download&id=1JRFY_CloQGIGfznveTsnTwaPyPepJHSb'),
+    new Audio('https://docs.google.com/uc?export=download&id=1JWajS7lwPM2OCXXbMNZnD3tJ3L9sFw5-'),
+    new Audio('https://docs.google.com/uc?export=download&id=1Jf-9dg-KkM0LaK76RTqHFb4DREpZoyxF'),
+    new Audio('https://docs.google.com/uc?export=download&id=1JrHFoXm6MN8cv1DKscJcGrNF-GOjSEv5'),
+    new Audio('https://docs.google.com/uc?export=download&id=17X_q1qYydn2qdDCwsNJbkjck8zadMKds'),
+    new Audio('https://docs.google.com/uc?export=download&id=17WweN8tbtmapgu2WjCvBkYyyGuu8gYJJ'),
+    new Audio('https://docs.google.com/uc?export=download&id=17_Cns5CS21vEzkwOf3OtwUbWRzmO9BtQ'),
+    new Audio('https://docs.google.com/uc?export=download&id=1BOR8mRpbUSuDkKUowoqm2UtdXsR_-gQI')
 ]
 
-lose_links = [
-    'https://docs.google.com/uc?export=download&id=1JYquCzA-nbVm-H2VHkb8dK5tcCz7MJQ3',
-    'https://docs.google.com/uc?export=download&id=1Ja4S7eT_0Mw4_NAOxAMNfjYWst0RydjI',
-    'https://docs.google.com/uc?export=download&id=1JzKczM9x80vHYpoNFGewod_RUJtLzrdH',
-    'https://docs.google.com/uc?export=download&id=1K8Xq5clmvFM5YtooJ1fg476DgbwhK3V9',
-    'https://docs.google.com/uc?export=download&id=17SBY4zOBf5DVIQ8Eml9rkq18tFLtG2Lt',
-    'https://docs.google.com/uc?export=download&id=17QR0pViFhq0uF8SJNBimb0qkIriGw1OZ',
-    'https://docs.google.com/uc?export=download&id=17KJGfpfFbVnjQN650sqQJGeekI1grOZy'
+var lose_links = [
+    new Audio('https://docs.google.com/uc?export=download&id=1JYquCzA-nbVm-H2VHkb8dK5tcCz7MJQ3'),
+    new Audio('https://docs.google.com/uc?export=download&id=1Ja4S7eT_0Mw4_NAOxAMNfjYWst0RydjI'),
+    new Audio('https://docs.google.com/uc?export=download&id=1JzKczM9x80vHYpoNFGewod_RUJtLzrdH'),
+    new Audio('https://docs.google.com/uc?export=download&id=1K8Xq5clmvFM5YtooJ1fg476DgbwhK3V9'),
+    new Audio('https://docs.google.com/uc?export=download&id=17SBY4zOBf5DVIQ8Eml9rkq18tFLtG2Lt'),
+    new Audio('https://docs.google.com/uc?export=download&id=17QR0pViFhq0uF8SJNBimb0qkIriGw1OZ'),
+    new Audio('https://docs.google.com/uc?export=download&id=17KJGfpfFbVnjQN650sqQJGeekI1grOZy'),
+    new Audio('https://docs.google.com/uc?export=download&id=1KJMKaa5Fvj6c1R9prXF-jpJ8uzuJjym3'),
+    new Audio('https://docs.google.com/uc?export=download&id=1B5RWIvGo54n8tr5jRlHA05JWaMk_C9G5'),
+    new Audio('https://docs.google.com/uc?export=download&id=1BCY8hhkUOF3OceKvGU94puiRe-Oc1IVf'),
+    new Audio('https://docs.google.com/uc?export=download&id=1BPN6whoXLfELZOHk_Wpt0Uw5rt4N3ye-')
 ]
 
 // https://stackoverflow.com/questions/40120915/javascript-function-that-returns-true-if-a-letter
@@ -123,7 +131,7 @@ function submit_message() {
                         }
                         if (trash_talk)
                         {
-                            new Audio(lose_links[Math.floor(Math.random() * lose_links.length)]).play();
+                            lose_links[Math.floor(Math.random() * lose_links.length)].play();
                         }
                         alert(data["solution"]);
                     }
@@ -155,7 +163,7 @@ function submit_message() {
                                 waiting = false;
                             }
                             if (j < 5 && trash_talk) {
-                                new Audio(guess_links[Math.floor(Math.random() * guess_links.length)]).play();
+                                guess_links[Math.floor(Math.random() * guess_links.length)].play();
                             }
                         }
 
@@ -192,7 +200,12 @@ function submit_message() {
                         if (checkWin(colors)) {
                             if (j >= bot_colors.length && trash_talk)
                             {
-                                new Audio(lose_links[Math.floor(Math.random() * lose_links.length)]).play();
+                                lose_links[Math.floor(Math.random() * lose_links.length)].play();
+                            }
+                            else
+                            {
+                                document.getElementById("bot_list").hidden = true;
+                                leave_sound.play()
                             }
                             j = -1;
                             document.getElementById("again").value = "Press Enter";

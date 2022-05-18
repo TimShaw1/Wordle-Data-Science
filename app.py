@@ -93,9 +93,9 @@ def reset_valid_guesses():
     # List to store valid guesses
     valid_guesses.clear()
     g.clear()
-    for guess in guesses:
-        valid_guesses.append(guess)
-        g.append(guess)
+    #for guess in guesses:
+        #valid_guesses.append(guess)
+        #g.append(guess)
     for solution in solutions:
         valid_guesses.append(solution)
         g.append(solution)
@@ -113,8 +113,6 @@ colors = ['gray', 'gray', 'gray', 'gray', 'gray']
 temp_colors = ['gray', 'gray', 'gray', 'gray', 'gray']
 
 win = ['green', 'green', 'green', 'green', 'green']
-
-start_guess = rw.recommend_words(valid_guesses, valid_letters, invalid_letters, g, word_frequencies)
 
 bot_colors = []
 
@@ -189,7 +187,7 @@ bot_words = []
 def run_bot():
     bot_words.clear()
     bot_colors.clear()
-    word1 = start_guess[0]
+    word1 = random.choice(['irate', 'soare', 'arose', 'slane', 'crane'])
     count = 1
     while word1 != solution.lower():
         bot_words.append(word1)
@@ -210,16 +208,22 @@ def run_bot():
 if challenge:
     run_bot()
 
+last_request = ["GET"]
+
 # Server stuff
 @app.route("/", methods=['POST', 'GET'])
 def home():
 
     if request.method == 'GET':
-        generate_solution()
-        run_bot()
+        if last_request[0] == "GET":
+            generate_solution()
+            run_bot()
+        if last_request[0] == "POST":
+            last_request[0] = "GET"
 
     # Get guess from page
     if request.method == "POST":
+        last_request[0] = "POST"
         guess = request.get_json()
         # If we lose
         if guess == "loss":
