@@ -208,22 +208,25 @@ def run_bot():
 if challenge:
     run_bot()
 
-last_request = ["GET"]
+last_request = ["GET", "GET"]
 
 # Server stuff
 @app.route("/", methods=['POST', 'GET'])
 def home():
 
     if request.method == 'GET':
-        if last_request[0] == "GET":
+        if last_request[1] == "GET":
             generate_solution()
             run_bot()
         if last_request[0] == "POST":
             last_request[0] = "GET"
+        elif last_request[0] == "GET" and last_request[1] == "POST":
+            last_request[1] = "GET"
 
     # Get guess from page
     if request.method == "POST":
         last_request[0] = "POST"
+        last_request[1] = "POST"
         guess = request.get_json()
         # If we lose
         if guess == "loss":
