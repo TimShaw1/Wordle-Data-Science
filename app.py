@@ -9,7 +9,7 @@ from flask_session import Session
 import keyboard
 import csv
 import random
-import numpy as np
+import numpy as np 
 
 import recommend_words as rw
 
