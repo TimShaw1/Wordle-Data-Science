@@ -1,6 +1,5 @@
 # An app by Tim Shaw
 
-from ast import While
 from cProfile import run
 import os
 
