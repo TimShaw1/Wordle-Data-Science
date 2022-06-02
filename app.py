@@ -1,5 +1,6 @@
 # An app by Tim Shaw
 
+from ast import While
 from cProfile import run
 import os
 
@@ -9,6 +10,7 @@ from flask_session import Session
 import keyboard
 import csv
 import random
+import numpy as np
 
 import recommend_words as rw
 
@@ -183,6 +185,9 @@ def game(word, bot):
     return temp_colors
 
 bot_words = []
+
+read_dict = np.load('bot_full_dict.npy', allow_pickle=True).item()
+print(read_dict['VIVID'])
 
 def run_bot():
     bot_words.clear()
