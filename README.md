@@ -1,5 +1,5 @@
 # Tim Shaw's Wordle Solver
-#### Video Demo: https://youtu.be/DUz53uftLZ0
+#### Full Video: https://youtu.be/794ssPb8k_0
 #### Description:
 Created by Tim Shaw for CS50
 
